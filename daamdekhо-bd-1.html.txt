@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DaamDekho BD — Bangladesh Price Comparison</title>
+<meta name="description" content="Compare product prices across Daraz, Pickaboo, AjkerDeal, Ryans, StarTech and more. Find the best deals in Bangladesh."/>
+<meta property="og:title" content="DaamDekho BD — Compare Prices in Bangladesh"/>
+<meta property="og:description" content="Find the lowest price for any product across top Bangladeshi e-commerce stores."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ── DESIGN TOKENS ─────────────────────────────────────── */
+:root {
+  --bg: #f0f4ff;
+  --surface: #ffffff;
+  --surface2: #f7f9ff;
+  --border: #e2e8f8;
+  --text: #0f1729;
+  --text2: #5a6a8a;
+  --accent: #3b5bdb;
+  --accent2: #228be6;
+  --accent-soft: #dbe4ff;
+  --green: #2f9e44;
+  --green-soft: #d3f9d8;
+  --red: #e03131;
+  --red-soft: #ffe3e3;
+  --orange: #e67700;
+  --orange-soft: #fff3bf;
+  --gold: #f08c00;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(59,91,219,0.08);
+  --shadow-lg: 0 12px 48px rgba(59,91,219,0.14);
+  --transition: 0.22s cubic-bezier(.4,0,.2,1);
+  --font-head: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --surface: #161b27;
+  --surface2: #1c2333;
+  --border: #2a3347;
+  --text: #e8edf8;
+  --text2: #8899bb;
+  --accent: #6180f0;
+  --accent2: #4dabf7;
+  --accent-soft: #1e2d60;
+  --green: #40c057;
+  --green-soft: #0d3020;
+  --red: #fa5252;
+  --red-soft: #3d0f0f;
+  --orange: #fd7e14;
+  --orange-soft: #3d2600;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.6);
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--transition),color var(--transition);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input{font-family:inherit}
+a{text-decoration:none;color:inherit}
+
+/* ── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── LAYOUT ────────────────────────────────────────────── */
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+.page{padding-bottom:80px}
+
+/* ── HEADER ────────────────────────────────────────────── */
+header{position:sticky;top:0;z-index:100;background:rgba(var(--surface-rgb, 255,255,255),0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background var(--transition)}
+[data-theme="dark"] header{background:rgba(22,27,39,0.85)}
+.header-inner{display:flex;align-items:center;gap:16px;padding:14px 20px;max-width:1280px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-head);font-weight:800;font-size:16px}
+.logo-text{font-family:var(--font-head);font-weight:800;font-size:18px;letter-spacing:-0.5px}
+.logo-text span{color:var(--accent)}
+.header-search{flex:1;max-width:560px}
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.icon-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text2);background:var(--surface2);border:1px solid var(--border);transition:all var(--transition);position:relative}
+.icon-btn:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.badge{position:absolute;top:-4px;right:-4px;background:var(--accent);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+/* ── SEARCH BAR ────────────────────────────────────────── */
+.search-wrap{position:relative}
+.search-input-row{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color var(--transition),box-shadow var(--transition)}
+.search-input-row:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-icon{padding:0 14px;color:var(--text2)}
+.search-input{flex:1;padding:11px 0;font-size:15px;color:var(--text);background:transparent;outline:none;border:none}
+.search-input::placeholder{color:var(--text2)}
+.search-clear{padding:0 12px;color:var(--text2);opacity:0;pointer-events:none;transition:opacity var(--transition)}
+.search-clear.visible{opacity:1;pointer-events:auto}
+.search-btn{padding:0 18px;height:100%;background:var(--accent);color:#fff;font-weight:600;font-size:14px;font-family:var(--font-head);white-space:nowrap;transition:background var(--transition)}
+.search-btn:hover{background:var(--accent2)}
+
+.search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;display:none}
+.search-dropdown.open{display:block;animation:fadeDown .18s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.dd-section{padding:12px 16px 4px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px}
+.dd-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:background var(--transition)}
+.dd-item:hover{background:var(--surface2)}
+.dd-item svg{color:var(--text2);flex-shrink:0}
+.dd-item-text{font-size:14px}
+.dd-item-sub{font-size:12px;color:var(--text2)}
+
+/* ── HERO ──────────────────────────────────────────────── */
+.hero{padding:56px 20px 40px;text-align:center;background:linear-gradient(180deg,var(--accent-soft) 0%,var(--bg) 100%)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:20px}
+.hero h1{font-family:var(--font-head);font-weight:800;font-size:clamp(28px,5vw,52px);line-height:1.1;letter-spacing:-1.5px;color:var(--text);margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{font-size:clamp(14px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 32px;line-height:1.6}
+.hero-search{max-width:640px;margin:0 auto 32px}
+.store-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.store-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:13px;font-weight:500;transition:all var(--transition)}
+.store-pill:hover{border-color:var(--accent);color:var(--accent)}
+.store-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── TRENDING ──────────────────────────────────────────── */
+.section{padding:32px 0}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-family:var(--font-head);font-weight:700;font-size:20px;letter-spacing:-.4px}
+.section-link{font-size:13px;color:var(--accent);font-weight:600}
+.trending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.trending-chip{padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:8px}
+.trending-chip:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.trending-rank{font-size:11px;font-weight:700;color:var(--text2);width:18px}
+
+/* ── FILTERS ───────────────────────────────────────────── */
+.filters-bar{display:flex;align-items:center;gap:10px;padding:16px 0;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.filters-bar::-webkit-scrollbar{display:none}
+.filter-chip{display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;white-space:nowrap;transition:all var(--transition);color:var(--text2)}
+.filter-chip:hover,.filter-chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.filter-chip.active svg{color:var(--accent)}
+.filter-sep{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.sort-select{padding:7px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);font-family:inherit;outline:none;cursor:pointer;transition:border-color var(--transition)}
+.sort-select:focus{border-color:var(--accent)}
+
+/* ── RESULTS HEADER ────────────────────────────────────── */
+.results-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.results-count{font-size:14px;color:var(--text2)}
+.results-count strong{color:var(--text);font-weight:600}
+.view-toggle{display:flex;gap:4px}
+.view-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text2);border:1px solid var(--border);background:var(--surface);transition:all var(--transition)}
+.view-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── PRODUCT CARDS ─────────────────────────────────────── */
+.products-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.products-grid.list-view{grid-template-columns:1fr}
+
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all var(--transition);position:relative;cursor:pointer}
+.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.product-card.best-deal{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.card-badges{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.badge-tag{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;letter-spacing:.2px}
+.badge-best{background:var(--green);color:#fff}
+.badge-hot{background:var(--orange);color:#fff}
+.badge-discount{background:var(--red);color:#fff}
+.card-wishlist{position:absolute;top:10px;right:10px;z-index:2;width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.card-wishlist:hover,.card-wishlist.active{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.card-wishlist.active svg{fill:var(--red)}
+.card-img{width:100%;height:200px;object-fit:contain;background:var(--surface2);padding:16px}
+.card-body{padding:16px}
+.card-store{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.store-logo{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.store-name{font-size:12px;font-weight:600;color:var(--text2)}
+.card-title{font-family:var(--font-head);font-weight:600;font-size:14px;line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.card-price{font-family:var(--font-head);font-weight:800;font-size:22px;color:var(--text)}
+.card-price-symbol{font-size:14px;font-weight:600;color:var(--text2)}
+.card-old-price{font-size:13px;color:var(--text2);text-decoration:line-through}
+.card-save{font-size:11px;font-weight:700;color:var(--green);background:var(--green-soft);padding:2px 6px;border-radius:4px}
+.card-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.card-rating{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:600}
+.card-rating svg{color:var(--gold)}
+.card-delivery{font-size:11px;padding:2px 7px;border-radius:4px;font-weight:600}
+.delivery-free{background:var(--green-soft);color:var(--green)}
+.delivery-paid{background:var(--surface2);color:var(--text2)}
+.card-actions{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;font-family:var(--font-head);transition:all var(--transition);white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff;flex:1}
+.btn-primary:hover{background:var(--accent2)}
+.btn-outline{border:1.5px solid var(--border);color:var(--text2);background:var(--surface2)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:7px 12px;font-size:12px}
+
+/* list view card */
+.products-grid.list-view .product-card{display:grid;grid-template-columns:200px 1fr;gap:0}
+.products-grid.list-view .card-img{height:160px}
+.products-grid.list-view .card-badges{top:10px}
+.products-grid.list-view .card-wishlist{top:8px}
+
+/* ── SKELETON ──────────────────────────────────────────── */
+.skeleton{background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.skel-img{height:200px}
+.skel-body{padding:16px;display:flex;flex-direction:column;gap:10px}
+.skel-line{height:14px;border-radius:6px}
+.skel-price{height:24px;border-radius:6px;width:50%}
+
+/* ── PRICE HISTORY CHART ───────────────────────────────── */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.chart-title{font-family:var(--font-head);font-weight:700;font-size:16px}
+.chart-period-btns{display:flex;gap:4px}
+.period-btn{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:var(--surface2);border:1px solid var(--border);transition:all var(--transition)}
+.period-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chart-wrap{height:200px;position:relative}
+
+/* ── COMPARISON MODAL ──────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:500;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:900px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-head);font-weight:700;font-size:18px}
+.modal-body{overflow-y:auto;padding:20px 24px;flex:1}
+.compare-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.compare-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center;position:relative}
+.compare-card.winner{border-color:var(--green);background:var(--green-soft)}
+.compare-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.compare-store{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px}
+.compare-price{font-family:var(--font-head);font-weight:800;font-size:26px;color:var(--text)}
+.compare-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.compare-row:last-child{border:none}
+.compare-label{color:var(--text2);font-weight:500}
+.compare-val{font-weight:600}
+
+/* ── WISHLIST PANEL ────────────────────────────────────── */
+.wishlist-panel{position:fixed;right:0;top:0;bottom:0;width:340px;background:var(--surface);border-left:1px solid var(--border);z-index:400;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column}
+.wishlist-panel.open{transform:translateX(0)}
+.wishlist-header{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.wishlist-body{flex:1;overflow-y:auto;padding:16px}
+.wishlist-item{display:flex;gap:12px;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:10px;position:relative}
+.wishlist-img{width:56px;height:56px;object-fit:contain;background:var(--surface);border-radius:8px;padding:4px;flex-shrink:0}
+.wishlist-info{flex:1;min-width:0}
+.wishlist-title{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wishlist-price{font-family:var(--font-head);font-weight:700;font-size:16px;color:var(--accent)}
+.wishlist-store{font-size:11px;color:var(--text2)}
+.wishlist-remove{position:absolute;top:8px;right:8px;color:var(--text2);transition:color var(--transition)}
+.wishlist-remove:hover{color:var(--red)}
+.wishlist-empty{text-align:center;padding:40px 20px;color:var(--text2)}
+
+/* ── ALERT TOGGLE ──────────────────────────────────────── */
+.alert-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;font-size:12px;font-weight:600;border:1.5px solid var(--border);color:var(--text2);background:var(--surface2);transition:all var(--transition)}
+.alert-btn.active{background:var(--orange-soft);border-color:var(--orange);color:var(--orange)}
+.alert-dot{width:7px;height:7px;border-radius:50%;background:var(--text2);transition:background var(--transition)}
+.alert-btn.active .alert-dot{background:var(--orange)}
+
+/* ── BOTTOM NAV (MOBILE) ───────────────────────────────── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:300;padding:8px 0;padding-bottom:max(8px, env(safe-area-inset-bottom))}
+.bottom-nav-inner{display:flex;justify-content:space-around}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 20px;color:var(--text2);font-size:10px;font-weight:600;transition:color var(--transition);position:relative}
+.nav-item.active{color:var(--accent)}
+.nav-item svg{width:22px;height:22px}
+
+/* ── TOAST ─────────────────────────────────────────────── */
+.toast-wrap{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:10px 18px;background:var(--text);color:var(--bg);border-radius:10px;font-size:13px;font-weight:600;white-space:nowrap;animation:toastIn .3s ease;pointer-events:none}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── EMPTY STATE ───────────────────────────────────────── */
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-icon{font-size:56px;margin-bottom:16px}
+.empty h3{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--text);margin-bottom:8px}
+.empty p{font-size:14px;line-height:1.6}
+
+/* ── PRICE RANGE SLIDER ────────────────────────────────── */
+.price-range{display:flex;flex-direction:column;gap:8px}
+.range-row{display:flex;gap:10px}
+.range-input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;transition:border-color var(--transition)}
+.range-input:focus{border-color:var(--accent)}
+
+/* ── FILTER DROPDOWN ───────────────────────────────────── */
+.filter-dropdown{position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);z-index:150;width:260px;padding:16px;display:none}
+.filter-dropdown.open{display:block;animation:fadeDown .18s ease}
+.filter-group{margin-bottom:16px}
+.filter-group:last-child{margin-bottom:0}
+.filter-group-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.checkbox-list{display:flex;flex-direction:column;gap:6px}
+.checkbox-item{display:flex;align-items:center;gap:8px;cursor:pointer}
+.checkbox-item input[type="checkbox"]{accent-color:var(--accent);width:15px;height:15px}
+.checkbox-item label{font-size:13px;cursor:pointer}
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media(max-width:768px){
+  .hero{padding:40px 20px 32px}
+  .hero-search{display:none}
+  .products-grid{grid-template-columns:1fr 1fr}
+  .products-grid.list-view{grid-template-columns:1fr}
+  .products-grid.list-view .product-card{grid-template-columns:120px 1fr}
+  .products-grid.list-view .card-img{height:120px}
+  .bottom-nav{display:block}
+  .page{padding-bottom:120px}
+  .wishlist-panel{width:100%;border-radius:20px 20px 0 0;top:auto;height:80vh;transform:translateY(100%)}
+  .wishlist-panel.open{transform:translateY(0)}
+  .modal{max-height:90vh}
+  .compare-grid{grid-template-columns:1fr 1fr}
+  header .logo-text{display:none}
+}
+@media(max-width:480px){
+  .products-grid{grid-template-columns:1fr}
+  .card-img{height:180px}
+  .header-actions .icon-btn:nth-child(2){display:none}
+}
+@media(min-width:769px){
+  .header-search{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">D</div>
+      <div class="logo-text">Daam<span>Dekho</span></div>
+    </div>
+    <div class="header-search search-wrap" id="headerSearchWrap">
+      <div class="search-input-row">
+        <span class="search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+        <input class="search-input" id="headerSearch" placeholder="Search products…" autocomplete="off"/>
+        <button class="search-clear" id="headerClear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+        <button class="search-btn" onclick="doSearch()">Search</button>
+      </div>
+      <div class="search-dropdown" id="headerDd"></div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleApiModal()" title="SerpApi Settings" id="apiBtn" style="position:relative">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        <span id="apiDot" style="position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);display:block"></span>
+      </button>
+      <button class="icon-btn" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" id="wishBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="badge" id="wishCount">0</span>
+      </button>
+      <button class="icon-btn" onclick="toggleCompareModal()" title="Compare" id="compareBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section class="hero" id="heroSection">
+  <div class="hero-badge">🇧🇩 Bangladesh's #1 Price Comparison</div>
+  <h1>Find the <em>Best Price</em><br/>Across Every Store</h1>
+  <p>Compare prices instantly from Daraz, Pickaboo, Ryans, StarTech and more. Never overpay again.</p>
+  <div class="hero-search search-wrap" id="heroSearchWrap">
+    <div class="search-input-row">
+      <span class="search-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+      <input class="search-input" id="heroSearch" placeholder='Try "iPhone 15", "Samsung TV", "Realme Narzo"…' autocomplete="off"/>
+      <button class="search-clear" id="heroClear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <button class="search-btn" onclick="doSearch()">Compare Prices</button>
+    </div>
+    <div class="search-dropdown" id="heroDd"></div>
+  </div>
+  <div class="store-pills">
+    <div class="store-pill"><div class="store-dot" style="background:#f97316"></div>Daraz</div>
+    <div class="store-pill"><div class="store-dot" style="background:#3b5bdb"></div>Pickaboo</div>
+    <div class="store-pill"><div class="store-dot" style="background:#2f9e44"></div>AjkerDeal</div>
+    <div class="store-pill"><div class="store-dot" style="background:#e03131"></div>Ryans</div>
+    <div class="store-pill"><div class="store-dot" style="background:#7048e8"></div>StarTech</div>
+    <div class="store-pill"><div class="store-dot" style="background:#0ea5e9"></div>+ More</div>
+  </div>
+</section>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────── -->
+<main class="container page">
+
+  <!-- Trending Searches -->
+  <div class="section" id="trendingSection">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Trending Now</h2>
+      <span class="section-link" style="cursor:pointer" onclick="loadTrending()">Refresh</span>
+    </div>
+    <div class="trending-grid" id="trendingGrid"></div>
+  </div>
+
+  <!-- Price History Chart (shown after search) -->
+  <div class="section" id="chartSection" style="display:none">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title" id="chartTitle">Price History</h3>
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="alert-btn" id="alertBtn" onclick="toggleAlert()">
+            <div class="alert-dot"></div> Price Alert
+          </button>
+          <div class="chart-period-btns">
+            <button class="period-btn active" onclick="setPeriod('1W',this)">1W</button>
+            <button class="period-btn" onclick="setPeriod('1M',this)">1M</button>
+            <button class="period-btn" onclick="setPeriod('3M',this)">3M</button>
+            <button class="period-btn" onclick="setPeriod('1Y',this)">1Y</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Filters Bar -->
+  <div id="filtersSection" style="display:none">
+    <div class="filters-bar">
+      <div style="position:relative">
+        <button class="filter-chip active" id="filterAllBtn" onclick="filterStore('all',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M7 12h10M11 18h2"/></svg>All Stores
+        </button>
+      </div>
+      <div class="filter-sep"></div>
+      <button class="filter-chip" onclick="filterStore('Daraz',this)">🛍️ Daraz</button>
+      <button class="filter-chip" onclick="filterStore('Pickaboo',this)">📦 Pickaboo</button>
+      <button class="filter-chip" onclick="filterStore('AjkerDeal',this)">💰 AjkerDeal</button>
+      <button class="filter-chip" onclick="filterStore('Ryans',this)">🖥️ Ryans</button>
+      <button class="filter-chip" onclick="filterStore('StarTech',this)">⭐ StarTech</button>
+      <div class="filter-sep"></div>
+      <div style="position:relative" id="filterDropdownWrap">
+        <button class="filter-chip" onclick="toggleFilterDropdown()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>More Filters
+        </button>
+        <div class="filter-dropdown" id="filterDropdown">
+          <div class="filter-group">
+            <div class="filter-group-label">Price Range (৳)</div>
+            <div class="price-range">
+              <div class="range-row">
+                <input class="range-input" type="number" id="priceMin" placeholder="Min" onchange="applyPriceFilter()"/>
+                <input class="range-input" type="number" id="priceMax" placeholder="Max" onchange="applyPriceFilter()"/>
+              </div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group-label">Rating</div>
+            <div class="checkbox-list">
+              <label class="checkbox-item"><input type="checkbox" onchange="applyRatingFilter(4,this)"/><label>4★ & above</label></label>
+              <label class="checkbox-item"><input type="checkbox" onchange="applyRatingFilter(3,this)"/><label>3★ & above</label></label>
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group-label">Delivery</div>
+            <div class="checkbox-list">
+              <label class="checkbox-item"><input type="checkbox" id="freeDeliveryCheck" onchange="applyDeliveryFilter()"/><label>Free Delivery</label></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-sep"></div>
+      <select class="sort-select" onchange="applySort(this.value)">
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+        <option value="discount">Best Discount</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="resultsSection" style="display:none">
+    <div class="results-meta">
+      <div class="results-count" id="resultsCount"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="icon-btn btn-sm" onclick="toggleCompareModal()" style="font-size:12px;font-weight:600;width:auto;padding:0 12px;height:32px;gap:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Compare
+        </button>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridBtn" onclick="setView('grid')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></button>
+          <button class="view-btn" id="listBtn" onclick="setView('list')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <!-- Empty State -->
+  <div id="emptyState" style="display:none">
+    <div class="empty">
+      <div class="empty-icon">🔍</div>
+      <h3>No results found</h3>
+      <p>Try different keywords or check the spelling.<br/>E.g. "Samsung Galaxy", "Xiaomi TV", "Earbuds"</p>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div id="loadingState" style="display:none">
+    <div class="products-grid" id="skeletonGrid"></div>
+  </div>
+
+</main>
+
+<!-- ── SERPAPI SETTINGS MODAL ──────────────────────────── -->
+<div class="modal-overlay" id="apiModal" style="align-items:center">
+  <div class="modal" style="max-width:480px;border-radius:var(--radius);margin:20px">
+    <div class="modal-header">
+      <div class="modal-title">🔌 SerpApi Configuration</div>
+      <button class="icon-btn" onclick="toggleApiModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" style="padding:24px">
+      <div style="background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px;font-size:13px;line-height:1.6;color:var(--accent)">
+        <strong>How it works:</strong> DaamDekho uses SerpApi's Google Shopping engine with <code style="background:rgba(59,91,219,.15);padding:1px 5px;border-radius:4px">gl=bd</code> (Bangladesh) to fetch live prices. Without a key, it uses mock data.
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:6px">Your SerpApi Key</label>
+        <div style="display:flex;gap:8px">
+          <input id="serpApiKeyInput" type="password" placeholder="Paste your API key here…" style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+          <button class="btn btn-primary" style="flex-shrink:0;padding:0 18px" onclick="saveApiKey()">Save</button>
+        </div>
+      </div>
+      <div id="apiStatus" style="margin-bottom:16px"></div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:13px;margin-bottom:16px">
+        <div style="font-weight:700;margin-bottom:8px">Get your free API key:</div>
+        <ol style="margin-left:16px;line-height:2.2;color:var(--text2)">
+          <li>Go to <strong><a href="https://serpapi.com" target="_blank" style="color:var(--accent)">serpapi.com</a></strong> and create an account</li>
+          <li>Copy your key from the dashboard</li>
+          <li>Paste it above and click Save</li>
+          <li>Free plan includes <strong>100 searches/month</strong></li>
+        </ol>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500">
+          <input type="checkbox" id="useMockFallback" checked style="accent-color:var(--accent);width:15px;height:15px"/>
+          Fall back to mock data if API fails
+        </label>
+        <button class="btn btn-outline btn-sm" onclick="clearApiKey()">Clear Key</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WISHLIST PANEL ──────────────────────────────────── -->
+<div class="wishlist-panel" id="wishlistPanel">
+  <div class="wishlist-header">
+    <div class="section-title">❤️ Wishlist</div>
+    <button class="icon-btn" onclick="toggleWishlist()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div class="wishlist-body" id="wishlistBody"></div>
+</div>
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:399;display:none" id="wishlistOverlay" onclick="toggleWishlist()"></div>
+
+<!-- ── COMPARE MODAL ───────────────────────────────────── -->
+<div class="modal-overlay" id="compareModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⚖️ Price Comparison</div>
+      <button class="icon-btn" onclick="toggleCompareModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="compareBody"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ───────────────────────────────────────────── -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ── BOTTOM NAV ─────────────────────────────────────── -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="nav-item active" onclick="scrollToTop()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="nav-item" onclick="focusSearch()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search
+    </button>
+    <button class="nav-item" onclick="toggleCompareModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Compare
+    </button>
+    <button class="nav-item" onclick="toggleWishlist()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Wishlist
+    </button>
+  </div>
+</nav>
+
+<script>
+/* ──────────────────────────────────────────────────────────
+   MOCK DATA LAYER  (replace with real API calls in backend)
+   ────────────────────────────────────────────────────────── */
+const STORES = {
+  Daraz:    { color: '#f97316', emoji: '🛍️' },
+  Pickaboo: { color: '#3b5bdb', emoji: '📦' },
+  AjkerDeal:{ color: '#2f9e44', emoji: '💰' },
+  Ryans:    { color: '#e03131', emoji: '🖥️' },
+  StarTech: { color: '#7048e8', emoji: '⭐' },
+  Chaldal:  { color: '#0ea5e9', emoji: '🏪' },
+};
+
+const MOCK_DB = {
+  "iphone 15": [
+    {id:'p1',title:'Apple iPhone 15 128GB Blue',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Daraz',price:119900,oldPrice:129900,rating:4.6,delivery:'Free',link:'#',category:'Smartphones',brand:'Apple'},
+    {id:'p2',title:'Apple iPhone 15 128GB Pink',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Pickaboo',price:121500,oldPrice:null,rating:4.5,delivery:'৳80',link:'#',category:'Smartphones',brand:'Apple'},
+    {id:'p3',title:'Apple iPhone 15 128GB Black',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'AjkerDeal',price:118000,oldPrice:125000,rating:4.4,delivery:'Free',link:'#',category:'Smartphones',brand:'Apple'},
+    {id:'p4',title:'Apple iPhone 15 256GB Blue',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Ryans',price:134500,oldPrice:null,rating:4.7,delivery:'৳100',link:'#',category:'Smartphones',brand:'Apple'},
+    {id:'p5',title:'Apple iPhone 15 Plus 128GB',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'StarTech',price:138000,oldPrice:145000,rating:4.5,delivery:'Free',link:'#',category:'Smartphones',brand:'Apple'},
+  ],
+  "samsung galaxy s24": [
+    {id:'p10',title:'Samsung Galaxy S24 8GB/256GB Phantom Black',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g.jpg',store:'Daraz',price:99999,oldPrice:109999,rating:4.7,delivery:'Free',link:'#',category:'Smartphones',brand:'Samsung'},
+    {id:'p11',title:'Samsung Galaxy S24 8GB/256GB Marble Grey',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g.jpg',store:'Pickaboo',price:97500,oldPrice:null,rating:4.6,delivery:'Free',link:'#',category:'Smartphones',brand:'Samsung'},
+    {id:'p12',title:'Samsung Galaxy S24 8GB/128GB Cobalt Violet',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g.jpg',store:'StarTech',price:94000,oldPrice:99000,rating:4.5,delivery:'৳60',link:'#',category:'Smartphones',brand:'Samsung'},
+    {id:'p13',title:'Samsung Galaxy S24 8GB/256GB Amber Yellow',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24-5g.jpg',store:'Ryans',price:101000,oldPrice:null,rating:4.8,delivery:'Free',link:'#',category:'Smartphones',brand:'Samsung'},
+  ],
+  "realme narzo": [
+    {id:'p20',title:'Realme Narzo N65 5G 6GB/128GB',image:'https://fdn2.gsmarena.com/vv/bigpic/realme-narzo-60-5g.jpg',store:'Daraz',price:16999,oldPrice:18999,rating:4.2,delivery:'Free',link:'#',category:'Smartphones',brand:'Realme'},
+    {id:'p21',title:'Realme Narzo N55 6GB/128GB',image:'https://fdn2.gsmarena.com/vv/bigpic/realme-narzo-60-5g.jpg',store:'AjkerDeal',price:15500,oldPrice:null,rating:4.1,delivery:'৳50',link:'#',category:'Smartphones',brand:'Realme'},
+    {id:'p22',title:'Realme Narzo 70 Pro 5G 8GB/256GB',image:'https://fdn2.gsmarena.com/vv/bigpic/realme-narzo-60-5g.jpg',store:'Pickaboo',price:22999,oldPrice:24999,rating:4.4,delivery:'Free',link:'#',category:'Smartphones',brand:'Realme'},
+  ],
+  "bluetooth earbuds": [
+    {id:'p30',title:'Samsung Galaxy Buds2 Pro Active Noise Cancelling',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-buds2-pro.jpg',store:'Daraz',price:12999,oldPrice:15999,rating:4.6,delivery:'Free',link:'#',category:'Audio',brand:'Samsung'},
+    {id:'p31',title:'JBL Tune 230NC TWS Noise Cancelling Earbuds',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-buds2-pro.jpg',store:'Ryans',price:7500,oldPrice:8500,rating:4.3,delivery:'৳80',link:'#',category:'Audio',brand:'JBL'},
+    {id:'p32',title:'Sony WF-1000XM5 Wireless Earbuds',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-buds2-pro.jpg',store:'StarTech',price:28500,oldPrice:31000,rating:4.8,delivery:'Free',link:'#',category:'Audio',brand:'Sony'},
+    {id:'p33',title:'OnePlus Nord Buds 2r TWS',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-buds2-pro.jpg',store:'Pickaboo',price:3999,oldPrice:4499,rating:4.1,delivery:'Free',link:'#',category:'Audio',brand:'OnePlus'},
+    {id:'p34',title:'Xiaomi Redmi Buds 5 ANC',image:'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-buds2-pro.jpg',store:'AjkerDeal',price:5499,oldPrice:6000,rating:4.0,delivery:'৳50',link:'#',category:'Audio',brand:'Xiaomi'},
+  ],
+  "laptop": [
+    {id:'p40',title:'Asus VivoBook 15 i5-12th Gen 16GB/512GB',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Ryans',price:69900,oldPrice:74900,rating:4.4,delivery:'Free',link:'#',category:'Laptops',brand:'Asus'},
+    {id:'p41',title:'Dell Inspiron 15 3000 i5-12th 8GB/512GB',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'StarTech',price:67500,oldPrice:null,rating:4.3,delivery:'Free',link:'#',category:'Laptops',brand:'Dell'},
+    {id:'p42',title:'HP Laptop 15s Core i5 1235U 8GB/512GB',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Daraz',price:62000,oldPrice:67000,rating:4.2,delivery:'৳200',link:'#',category:'Laptops',brand:'HP'},
+    {id:'p43',title:'Lenovo IdeaPad Slim 3 i3 12th 8GB/256GB',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Pickaboo',price:49900,oldPrice:52000,rating:4.1,delivery:'Free',link:'#',category:'Laptops',brand:'Lenovo'},
+  ],
+  "samsung tv": [
+    {id:'p50',title:'Samsung 43" Crystal UHD 4K Smart TV 2024',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Daraz',price:49990,oldPrice:57990,rating:4.5,delivery:'Free',link:'#',category:'TV',brand:'Samsung'},
+    {id:'p51',title:'Samsung 55" QLED 4K Smart TV Q60D',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'Ryans',price:89900,oldPrice:99900,rating:4.7,delivery:'Free',link:'#',category:'TV',brand:'Samsung'},
+    {id:'p52',title:'Samsung 32" Full HD Smart TV T5300',image:'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',store:'StarTech',price:29900,oldPrice:null,rating:4.3,delivery:'৳300',link:'#',category:'TV',brand:'Samsung'},
+  ],
+};
+
+const TRENDING = [
+  'iPhone 15','Samsung Galaxy S24','MacBook Air M2','Realme Narzo','AirPods Pro','Samsung TV 55"','Bluetooth Earbuds','Gaming Laptop','Mi 11X Pro','OnePlus 12',
+];
+
+const RECENT_SEARCHES = JSON.parse(localStorage.getItem('dd_recent') || '[]');
+
+/* ──────────────────────────────────────────────────────────
+   STATE
+   ────────────────────────────────────────────────────────── */
+let allResults = [];
+let filteredResults = [];
+let wishlist = JSON.parse(localStorage.getItem('dd_wishlist') || '[]');
+let priceAlerts = JSON.parse(localStorage.getItem('dd_alerts') || '[]');
+let compareList = [];
+let currentQuery = '';
+let currentPeriod = '1W';
+let chartInstance = null;
+let debounceTimer = null;
+let activeStoreFilter = 'all';
+let activePriceMin = null;
+let activePriceMax = null;
+let activeMinRating = null;
+let freeDeliveryOnly = false;
+let activeSort = 'price-asc';
+let currentView = 'grid';
+
+/* ──────────────────────────────────────────────────────────
+   INIT
+   ────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Dark mode persistence
+  const dark = localStorage.getItem('dd_dark') === 'true';
+  if(dark) document.documentElement.setAttribute('data-theme','dark');
+  updateDarkIcon();
+
+  loadTrending();
+  updateWishCount();
+  updateApiDot();
+  setupSearch('heroSearch','heroDd','heroClear');
+  setupSearch('headerSearch','headerDd','headerClear');
+
+  // Close filter dropdown on outside click
+  document.addEventListener('click', e => {
+    if(!document.getElementById('filterDropdownWrap').contains(e.target)){
+      document.getElementById('filterDropdown').classList.remove('open');
+    }
+  });
+});
+
+/* ──────────────────────────────────────────────────────────
+   SEARCH SETUP
+   ────────────────────────────────────────────────────────── */
+function setupSearch(inputId, ddId, clearId) {
+  const input = document.getElementById(inputId);
+  const dd = document.getElementById(ddId);
+  const clearBtn = document.getElementById(clearId);
+
+  input.addEventListener('input', () => {
+    clearBtn.classList.toggle('visible', input.value.length > 0);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => renderDropdown(input.value, dd), 150);
+    dd.classList.add('open');
+  });
+
+  input.addEventListener('focus', () => {
+    renderDropdown(input.value, dd);
+    dd.classList.add('open');
+  });
+
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter') { doSearchFromInput(input.value); dd.classList.remove('open'); }
+    if(e.key === 'Escape') dd.classList.remove('open');
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    dd.classList.remove('open');
+  });
+
+  document.addEventListener('click', e => {
+    if(!input.closest('.search-wrap').contains(e.target)) dd.classList.remove('open');
+  });
+}
+
+function renderDropdown(query, dd) {
+  let html = '';
+  const q = query.toLowerCase().trim();
+
+  if(!q) {
+    // Recent
+    if(RECENT_SEARCHES.length) {
+      html += `<div class="dd-section">Recent</div>`;
+      RECENT_SEARCHES.slice(0,3).forEach(s => {
+        html += `<div class="dd-item" onclick="doSearchFromInput('${s}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="dd-item-text">${s}</span>
+        </div>`;
+      });
+    }
+    html += `<div class="dd-section">Trending</div>`;
+    TRENDING.slice(0,4).forEach(s => {
+      html += `<div class="dd-item" onclick="doSearchFromInput('${s}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <span class="dd-item-text">${s}</span>
+        <span class="dd-item-sub" style="margin-left:auto">Trending</span>
+      </div>`;
+    });
+  } else {
+    const matches = Object.keys(MOCK_DB).filter(k => k.includes(q));
+    if(matches.length) {
+      html += `<div class="dd-section">Suggestions</div>`;
+      matches.forEach(k => {
+        html += `<div class="dd-item" onclick="doSearchFromInput('${k}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <div>
+            <div class="dd-item-text">${k.charAt(0).toUpperCase()+k.slice(1)}</div>
+            <div class="dd-item-sub">${MOCK_DB[k].length} results from ${[...new Set(MOCK_DB[k].map(p=>p.store))].join(', ')}</div>
+          </div>
+        </div>`;
+      });
+    } else {
+      html += `<div class="dd-item" onclick="doSearchFromInput('${q}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span class="dd-item-text">Search for "${query}"</span>
+      </div>`;
+    }
+  }
+  dd.innerHTML = html;
+}
+
+function doSearch() {
+  const v = document.getElementById('heroSearch').value || document.getElementById('headerSearch').value;
+  doSearchFromInput(v);
+}
+
+function doSearchFromInput(q) {
+  if(!q.trim()) return;
+  document.getElementById('heroSearch').value = q;
+  document.getElementById('headerSearch').value = q;
+  document.getElementById('heroDd').classList.remove('open');
+  document.getElementById('headerDd').classList.remove('open');
+
+  if(!RECENT_SEARCHES.includes(q)) {
+    RECENT_SEARCHES.unshift(q);
+    if(RECENT_SEARCHES.length > 5) RECENT_SEARCHES.pop();
+    localStorage.setItem('dd_recent', JSON.stringify(RECENT_SEARCHES));
+  }
+
+  currentQuery = q;
+  showLoading();
+  fetchResults(q);
+}
+
+/* ──────────────────────────────────────────────────────────
+   SERPAPI INTEGRATION
+   ────────────────────────────────────────────────────────── */
+
+// ── Key management ──
+function getSerpKey() { return localStorage.getItem('dd_serpapi_key') || ''; }
+
+function saveApiKey() {
+  const val = document.getElementById('serpApiKeyInput').value.trim();
+  if(!val) { showApiStatus('error','Please enter a key'); return; }
+  localStorage.setItem('dd_serpapi_key', val);
+  updateApiDot();
+  showApiStatus('success','✅ Key saved! Searches will now use SerpApi live data.');
+  toast('🔌 SerpApi key saved');
+}
+
+function clearApiKey() {
+  localStorage.removeItem('dd_serpapi_key');
+  document.getElementById('serpApiKeyInput').value = '';
+  updateApiDot();
+  showApiStatus('info','Key cleared. Using mock data.');
+}
+
+function showApiStatus(type, msg) {
+  const colors = { success:'var(--green)', error:'var(--red)', info:'var(--text2)' };
+  const bgs    = { success:'var(--green-soft)', error:'var(--red-soft)', info:'var(--surface2)' };
+  document.getElementById('apiStatus').innerHTML =
+    `<div style="padding:10px 14px;border-radius:8px;font-size:13px;font-weight:500;background:${bgs[type]};color:${colors[type]}">${msg}</div>`;
+}
+
+function updateApiDot() {
+  const dot = document.getElementById('apiDot');
+  const hasKey = !!getSerpKey();
+  dot.style.background = hasKey ? 'var(--green)' : 'var(--red)';
+  dot.title = hasKey ? 'SerpApi connected' : 'No API key set';
+}
+
+function toggleApiModal() {
+  const modal = document.getElementById('apiModal');
+  const open = modal.classList.toggle('open');
+  if(open) {
+    const key = getSerpKey();
+    if(key) document.getElementById('serpApiKeyInput').value = key;
+    showApiStatus(key ? 'success' : 'info', key ? '✅ Key is saved and active.' : 'No key set — searches use mock data.');
+  }
+}
+
+// ── SerpApi fetch ──
+// NOTE: Direct browser → SerpApi calls are possible but expose your key.
+// For production, route through your own backend: /api/search?q=...
+// The CORS proxy below (allorigins) is for development/demo only.
+async function fetchFromSerpApi(query) {
+  const key = getSerpKey();
+  if(!key) return null;
+
+  // Option A: Direct call (key visible in DevTools — dev/demo only)
+  // Option B: Via a proxy (used here for demo)
+  // Option C (recommended for prod): your own Next.js API route
+  const serpUrl = `https://serpapi.com/search.json?engine=google_shopping&q=${encodeURIComponent(query)}&gl=bd&hl=en&num=20&api_key=${key}`;
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(serpUrl)}`;
+
+  try {
+    const res = await fetch(proxyUrl);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const outer = await res.json();
+    const data = JSON.parse(outer.contents);
+
+    if(data.error) throw new Error(data.error);
+
+    return normalizeSerpResults(data, query);
+  } catch(err) {
+    console.error('SerpApi error:', err);
+    toast(`⚠️ SerpApi error: ${err.message.substring(0,60)}`);
+    return null;
+  }
+}
+
+// ── Normalize SerpApi Google Shopping response → our product schema ──
+function normalizeSerpResults(data, query) {
+  const items = data.shopping_results || [];
+  if(!items.length) return [];
+
+  return items.slice(0, 20).map((item, i) => {
+    // Parse price — SerpApi returns e.g. "৳12,999" or "BDT 12999" or just "12999"
+    const priceRaw = item.price || item.extracted_price || '0';
+    const price = parsePrice(priceRaw);
+
+    // Try to detect old/original price
+    const oldPriceRaw = item.old_price || item.original_price || null;
+    const oldPrice = oldPriceRaw ? parsePrice(oldPriceRaw) : null;
+
+    // Source / store name — SerpApi gives source field
+    const storeName = cleanStoreName(item.source || 'Online Store');
+
+    // Rating
+    const rating = item.rating ? parseFloat(item.rating) : null;
+
+    // Delivery
+    const delivery = item.delivery ? parseDelivery(item.delivery) : 'N/A';
+
+    return {
+      id: item.product_id || item.position?.toString() || `serp_${i}`,
+      title: item.title || query,
+      image: item.thumbnail || item.image || '',
+      store: storeName,
+      price,
+      oldPrice: oldPrice && oldPrice > price ? oldPrice : null,
+      rating: rating || +(3.5 + Math.random() * 1.2).toFixed(1),
+      delivery,
+      link: item.link || item.product_link || '#',
+      category: item.category || 'General',
+      brand: extractBrand(item.title || query),
+      source: 'serpapi', // mark as live data
+    };
+  }).filter(p => p.price > 0); // drop items with unparseable price
+}
+
+// ── Price parser — handles ৳12,999 / BDT 12,999 / $12.99 / 12999 ──
+function parsePrice(raw) {
+  if(typeof raw === 'number') return Math.round(raw);
+  // Remove currency symbols and commas
+  const cleaned = String(raw).replace(/[৳$£€,\s]/g,'').replace(/BDT/i,'').replace(/USD/i,'').trim();
+  const num = parseFloat(cleaned);
+  if(isNaN(num)) return 0;
+  // If price looks like USD (small number), convert to BDT (approx 110 BDT/USD)
+  if(num < 500 && String(raw).includes('$')) return Math.round(num * 110);
+  return Math.round(num);
+}
+
+// ── Delivery parser ──
+function parseDelivery(raw) {
+  if(!raw) return 'N/A';
+  const s = String(raw).toLowerCase();
+  if(s.includes('free')) return 'Free';
+  const match = s.match(/[\d,]+/);
+  if(match) return `৳${match[0]}`;
+  return raw.substring(0, 20);
+}
+
+// ── Store name cleaner — maps common BD store variants ──
+const STORE_MAP = {
+  'daraz': 'Daraz',
+  'pickaboo': 'Pickaboo',
+  'ajkerdeal': 'AjkerDeal',
+  'ryans': 'Ryans',
+  'ryan': 'Ryans',
+  'startech': 'StarTech',
+  'star tech': 'StarTech',
+  'chaldal': 'Chaldal',
+  'shajgoj': 'Shajgoj',
+  'othoba': 'Othoba',
+  'rokomari': 'Rokomari',
+  'amazon': 'Amazon',
+  'flipkart': 'Flipkart',
+};
+
+function cleanStoreName(raw) {
+  const lower = raw.toLowerCase();
+  for(const [key, val] of Object.entries(STORE_MAP)) {
+    if(lower.includes(key)) return val;
+  }
+  // Return cleaned version of raw
+  return raw.replace(/\.com\.bd|\.com|\.bd/gi,'').replace(/\b\w/g,c=>c.toUpperCase()).trim().substring(0,20);
+}
+
+// ── Brand extractor ──
+function extractBrand(title) {
+  const brands = ['Apple','Samsung','Xiaomi','Realme','OnePlus','Oppo','Vivo','Sony','JBL','Asus','Dell','HP','Lenovo','Nokia','Motorola','Huawei','Honor','Google','Nothing'];
+  for(const b of brands) {
+    if(title.toLowerCase().includes(b.toLowerCase())) return b;
+  }
+  return title.split(' ')[0];
+}
+
+// ── Dynamic store color for unknown stores ──
+function getStoreColor(storeName) {
+  const known = STORES[storeName];
+  if(known) return known;
+  // Generate consistent color from store name
+  let hash = 0;
+  for(let c of storeName) hash = c.charCodeAt(0) + ((hash<<5)-hash);
+  const h = Math.abs(hash) % 360;
+  return { color: `hsl(${h},65%,45%)`, emoji: '🏪' };
+}
+
+// ── Main fetch orchestrator ──
+async function fetchResults(query) {
+  let results = null;
+  const hasKey = !!getSerpKey();
+
+  if(hasKey) {
+    toast('🔍 Fetching live prices from SerpApi…');
+    results = await fetchFromSerpApi(query);
+  }
+
+  const useFallback = document.getElementById('useMockFallback')?.checked ?? true;
+
+  if(!results || results.length === 0) {
+    if(hasKey && results !== null) toast('⚠️ No live results — using mock data');
+    if(useFallback || !hasKey) {
+      results = getMockResults(query);
+    } else {
+      results = [];
+    }
+  } else {
+    const count = results.length;
+    toast(`✅ Found ${count} live results for "${query}"`);
+  }
+
+  allResults = results;
+  hideLoading();
+  activeStoreFilter = 'all';
+  activePriceMin = null; activePriceMax = null; activeMinRating = null; freeDeliveryOnly = false;
+  activeSort = 'price-asc';
+  filteredResults = [...allResults];
+  applyFiltersAndSort();
+  document.getElementById('trendingSection').style.display = 'none';
+  document.getElementById('filtersSection').style.display = 'block';
+  document.getElementById('chartSection').style.display = 'block';
+  document.getElementById('chartTitle').textContent = `Price History — ${query.charAt(0).toUpperCase()+query.slice(1)}`;
+  renderChart(currentPeriod);
+  updateAlertBtn();
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('filterAllBtn').classList.add('active');
+}
+
+// ── Mock data fallback ──
+function getMockResults(query) {
+  const key = Object.keys(MOCK_DB).find(k =>
+    query.toLowerCase().includes(k) || k.includes(query.toLowerCase())
+  );
+  if(key) return MOCK_DB[key].map(p => ({...p}));
+  return generateMockResults(query);
+}
+
+function generateMockResults(query) {
+  const stores = Object.keys(STORES);
+  const basePrice = Math.floor(Math.random() * 30000) + 5000;
+  return stores.map((s, i) => ({
+    id: `gen_${i}`,
+    title: `${query.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ')} — ${s}`,
+    image: 'https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-15.jpg',
+    store: s,
+    price: basePrice + (Math.random()>.5 ? Math.floor(Math.random()*2000) : -Math.floor(Math.random()*1000)),
+    oldPrice: Math.random()>.6 ? basePrice + Math.floor(Math.random()*3000)+500 : null,
+    rating: +(3.5+Math.random()*1.4).toFixed(1),
+    delivery: Math.random()>.5 ? 'Free' : `৳${[50,80,100,120][Math.floor(Math.random()*4)]}`,
+    link: '#', category:'General', brand: query.split(' ')[0],
+  }));
+}
+
+/* ──────────────────────────────────────────────────────────
+   FILTERS & SORT
+   ────────────────────────────────────────────────────────── */
+function filterStore(store, btn) {
+  activeStoreFilter = store;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    if(c.id !== 'filterAllBtn' || store === 'all') c.classList.remove('active');
+  });
+  if(btn) btn.classList.add('active');
+  if(store === 'all' && btn) btn.classList.add('active');
+  applyFiltersAndSort();
+}
+
+function applyPriceFilter() {
+  activePriceMin = parseFloat(document.getElementById('priceMin').value) || null;
+  activePriceMax = parseFloat(document.getElementById('priceMax').value) || null;
+  applyFiltersAndSort();
+}
+
+function applyRatingFilter(min, cb) {
+  activeMinRating = cb.checked ? min : null;
+  applyFiltersAndSort();
+}
+
+function applyDeliveryFilter() {
+  freeDeliveryOnly = document.getElementById('freeDeliveryCheck').checked;
+  applyFiltersAndSort();
+}
+
+function applySort(val) {
+  activeSort = val;
+  applyFiltersAndSort();
+}
+
+function applyFiltersAndSort() {
+  filteredResults = allResults.filter(p => {
+    if(activeStoreFilter !== 'all' && p.store !== activeStoreFilter) return false;
+    if(activePriceMin !== null && p.price < activePriceMin) return false;
+    if(activePriceMax !== null && p.price > activePriceMax) return false;
+    if(activeMinRating !== null && p.rating < activeMinRating) return false;
+    if(freeDeliveryOnly && p.delivery !== 'Free') return false;
+    return true;
+  });
+
+  filteredResults.sort((a, b) => {
+    if(activeSort === 'price-asc') return a.price - b.price;
+    if(activeSort === 'price-desc') return b.price - a.price;
+    if(activeSort === 'rating') return b.rating - a.rating;
+    if(activeSort === 'discount') {
+      const discA = a.oldPrice ? a.oldPrice - a.price : 0;
+      const discB = b.oldPrice ? b.oldPrice - b.price : 0;
+      return discB - discA;
+    }
+    return 0;
+  });
+
+  renderResults();
+}
+
+/* ──────────────────────────────────────────────────────────
+   RENDER RESULTS
+   ────────────────────────────────────────────────────────── */
+function renderResults() {
+  const grid = document.getElementById('productsGrid');
+  const res = document.getElementById('resultsSection');
+  const empty = document.getElementById('emptyState');
+
+  if(!filteredResults.length) {
+    res.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  res.style.display = 'block';
+
+  const minPrice = Math.min(...filteredResults.map(p=>p.price));
+  document.getElementById('resultsCount').innerHTML = `<strong>${filteredResults.length}</strong> results for "${currentQuery}"`;
+
+  grid.innerHTML = filteredResults.map((p, i) => {
+    const isBest = p.price === minPrice;
+    const discount = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
+    const saved = p.oldPrice ? p.oldPrice - p.price : 0;
+    const store = getStoreColor(p.store);
+    const inWish = wishlist.some(w => w.id === p.id);
+    const isAlert = priceAlerts.includes(p.id);
+
+    return `<div class="product-card${isBest?' best-deal':''}" style="animation-delay:${i*0.06}s">
+      <div class="card-badges">
+        ${isBest?'<span class="badge-tag badge-best">🟢 Best Deal</span>':''}
+        ${discount>=10?`<span class="badge-tag badge-discount">-${discount}%</span>`:''}
+        ${p.source==='serpapi'?'<span class="badge-tag" style="background:var(--accent);color:#fff">🔴 Live</span>':''}
+        ${i===1&&!isBest&&p.source!=='serpapi'?'<span class="badge-tag badge-hot">🔥 Hot</span>':''}
+      </div>
+      <button class="card-wishlist${inWish?' active':''}" onclick="toggleWishItem(event,'${p.id}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="${inWish?'currentColor':'none'}" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+      <img class="card-img" src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f1f5ff%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22>📦</text></svg>'"/>
+      <div class="card-body">
+        <div class="card-store">
+          <div class="store-logo" style="background:${store.color}">${store.emoji}</div>
+          <span class="store-name">${p.store}</span>
+        </div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-price-row">
+          <span class="card-price-symbol">৳</span>
+          <span class="card-price">${p.price.toLocaleString()}</span>
+          ${p.oldPrice?`<span class="card-old-price">৳${p.oldPrice.toLocaleString()}</span>`:''}
+          ${saved>0?`<span class="card-save">Save ৳${saved.toLocaleString()}</span>`:''}
+        </div>
+        <div class="card-meta">
+          <div class="card-rating">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            ${p.rating}
+          </div>
+          <span class="card-delivery ${p.delivery==='Free'?'delivery-free':'delivery-paid'}">${p.delivery==='Free'?'🚚 Free':'🚚 '+p.delivery}</span>
+        </div>
+        <div class="card-actions">
+          <a href="${p.link}" class="btn btn-primary" target="_blank" rel="noopener" onclick="p.link==='#'&&toast('Opening ${p.store}…')">View Deal</a>
+          <button class="btn btn-outline" onclick="addToCompare('${p.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ──────────────────────────────────────────────────────────
+   WISHLIST
+   ────────────────────────────────────────────────────────── */
+function toggleWishItem(e, id) {
+  e.stopPropagation();
+  const p = allResults.find(p=>p.id===id);
+  if(!p) return;
+  const idx = wishlist.findIndex(w=>w.id===id);
+  if(idx === -1) {
+    wishlist.push(p);
+    toast('❤️ Added to wishlist');
+  } else {
+    wishlist.splice(idx,1);
+    toast('Removed from wishlist');
+  }
+  localStorage.setItem('dd_wishlist', JSON.stringify(wishlist));
+  updateWishCount();
+  renderResults();
+  renderWishlist();
+}
+
+function updateWishCount() {
+  const el = document.getElementById('wishCount');
+  el.textContent = wishlist.length;
+  el.style.display = wishlist.length ? 'flex' : 'none';
+}
+
+function toggleWishlist() {
+  const panel = document.getElementById('wishlistPanel');
+  const overlay = document.getElementById('wishlistOverlay');
+  const open = panel.classList.toggle('open');
+  overlay.style.display = open ? 'block' : 'none';
+  if(open) renderWishlist();
+}
+
+function renderWishlist() {
+  const body = document.getElementById('wishlistBody');
+  if(!wishlist.length) {
+    body.innerHTML = `<div class="wishlist-empty"><div style="font-size:40px;margin-bottom:12px">🛒</div><p>Your wishlist is empty.<br/>Heart items to save them here.</p></div>`;
+    return;
+  }
+  body.innerHTML = wishlist.map(p => {
+    const store = getStoreColor(p.store);
+    return `<div class="wishlist-item">
+      <img class="wishlist-img" src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>
+      <div class="wishlist-info">
+        <div class="wishlist-title">${p.title}</div>
+        <div class="wishlist-price">৳${p.price.toLocaleString()}</div>
+        <div class="wishlist-store" style="color:${store.color}">${p.store}</div>
+      </div>
+      <button class="wishlist-remove" onclick="removeWish('${p.id}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function removeWish(id) {
+  wishlist = wishlist.filter(w => w.id !== id);
+  localStorage.setItem('dd_wishlist', JSON.stringify(wishlist));
+  updateWishCount();
+  renderWishlist();
+  renderResults();
+}
+
+/* ──────────────────────────────────────────────────────────
+   COMPARE MODAL
+   ────────────────────────────────────────────────────────── */
+function addToCompare(id) {
+  const p = allResults.find(p=>p.id===id);
+  if(!p) return;
+  if(compareList.find(c=>c.id===id)) { toast('Already in comparison'); return; }
+  if(compareList.length >= 4) { toast('Max 4 items to compare'); return; }
+  compareList.push(p);
+  toast(`Added to compare (${compareList.length}/4)`);
+}
+
+function toggleCompareModal() {
+  const modal = document.getElementById('compareModal');
+  const open = modal.classList.toggle('open');
+  if(open) renderCompare();
+}
+
+function renderCompare() {
+  const body = document.getElementById('compareBody');
+  if(!compareList.length) {
+    // Show all current results
+    const pool = filteredResults.length ? filteredResults : allResults;
+    if(!pool.length) {
+      body.innerHTML = `<div class="wishlist-empty"><div style="font-size:40px;margin-bottom:12px">🔍</div><p>Search for a product first, then click the compare button on cards.</p></div>`;
+      return;
+    }
+    renderCompareCards(body, pool.slice(0,5));
+    return;
+  }
+  renderCompareCards(body, compareList);
+}
+
+function renderCompareCards(body, items) {
+  const minPrice = Math.min(...items.map(p=>p.price));
+  const rows = [
+    ['Price', p => `<strong>৳${p.price.toLocaleString()}</strong>`],
+    ['Rating', p => `⭐ ${p.rating}`],
+    ['Delivery', p => p.delivery],
+    ['Original', p => p.oldPrice ? `৳${p.oldPrice.toLocaleString()}` : '—'],
+    ['Savings', p => p.oldPrice ? `৳${(p.oldPrice-p.price).toLocaleString()}` : '—'],
+  ];
+
+  body.innerHTML = `
+    <div class="compare-grid">
+      ${items.map(p => {
+        const isWinner = p.price === minPrice;
+        const store = getStoreColor(p.store);
+        return `<div class="compare-card${isWinner?' winner':''}">
+          ${isWinner?'<div class="compare-badge">🟢 Best Deal</div>':''}
+          <div class="compare-store" style="color:${store.color}">${p.store}</div>
+          <div class="compare-price">৳${p.price.toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:4px;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title.substring(0,30)}…</div>
+          ${rows.map(([label, fn]) => `
+            <div class="compare-row">
+              <span class="compare-label">${label}</span>
+              <span class="compare-val">${fn(p)}</span>
+            </div>
+          `).join('')}
+          <button class="btn btn-primary" style="margin-top:12px;width:100%;font-size:12px" onclick="toast('Opening ${p.store}…')">Buy Now</button>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn btn-outline" onclick="compareList=[];renderCompare()">Clear Comparison</button>
+    </div>
+  `;
+}
+
+/* ──────────────────────────────────────────────────────────
+   PRICE HISTORY CHART
+   ────────────────────────────────────────────────────────── */
+function generatePriceHistory(period) {
+  const points = {' 1W':7,'1M':30,'3M':90,'1Y':365}[period] || 7;
+  const base = allResults.length ? Math.min(...allResults.map(p=>p.price)) : 20000;
+  const labels = [], data = [];
+  const now = new Date();
+  for(let i=points;i>=0;i--) {
+    const d = new Date(now); d.setDate(now.getDate()-i);
+    labels.push(d.toLocaleDateString('en-BD',{month:'short',day:'numeric'}));
+    data.push(Math.round(base * (0.92 + Math.random() * 0.16)));
+  }
+  return {labels, data};
+}
+
+function renderChart(period) {
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  const {labels, data} = generatePriceHistory(period);
+  const isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#3b5bdb';
+
+  if(chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'Lowest Price (৳)',
+        data,
+        borderColor: '#3b5bdb',
+        backgroundColor: 'rgba(59,91,219,0.08)',
+        tension:0.4,
+        fill:true,
+        pointRadius:3,
+        pointHoverRadius:6,
+        pointBackgroundColor:'#3b5bdb',
+        borderWidth:2,
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor: isDark ? '#1c2333' : '#fff',
+          borderColor: isDark ? '#2a3347' : '#e2e8f8',
+          borderWidth:1,
+          titleColor: isDark ? '#e8edf8' : '#0f1729',
+          bodyColor: isDark ? '#8899bb' : '#5a6a8a',
+          callbacks:{label:ctx=>`৳${ctx.parsed.y.toLocaleString()}`},
+        }
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color: isDark?'#8899bb':'#5a6a8a',maxTicksLimit:8,font:{size:11}}},
+        y:{grid:{color: isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)'},ticks:{color: isDark?'#8899bb':'#5a6a8a',font:{size:11},callback:v=>`৳${v.toLocaleString()}`}},
+      }
+    }
+  });
+}
+
+function setPeriod(p, btn) {
+  currentPeriod = p;
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart(p);
+}
+
+/* ──────────────────────────────────────────────────────────
+   PRICE ALERT
+   ────────────────────────────────────────────────────────── */
+function toggleAlert() {
+  const key = currentQuery;
+  const idx = priceAlerts.indexOf(key);
+  if(idx===-1) { priceAlerts.push(key); toast('🔔 Price alert set for "'+key+'"'); }
+  else { priceAlerts.splice(idx,1); toast('Alert removed'); }
+  localStorage.setItem('dd_alerts', JSON.stringify(priceAlerts));
+  updateAlertBtn();
+}
+
+function updateAlertBtn() {
+  const btn = document.getElementById('alertBtn');
+  const active = priceAlerts.includes(currentQuery);
+  btn.classList.toggle('active', active);
+  btn.innerHTML = `<div class="alert-dot"></div>${active ? 'Alert On' : 'Price Alert'}`;
+}
+
+/* ──────────────────────────────────────────────────────────
+   TRENDING
+   ────────────────────────────────────────────────────────── */
+function loadTrending() {
+  const grid = document.getElementById('trendingGrid');
+  grid.innerHTML = TRENDING.map((t, i) => `
+    <div class="trending-chip" onclick="doSearchFromInput('${t}')">
+      <span class="trending-rank">${i+1}</span>${t}
+    </div>
+  `).join('');
+}
+
+/* ──────────────────────────────────────────────────────────
+   LOADING STATES
+   ────────────────────────────────────────────────────────── */
+function showLoading() {
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('filtersSection').style.display = 'none';
+  document.getElementById('chartSection').style.display = 'none';
+  document.getElementById('trendingSection').style.display = 'none';
+  const ls = document.getElementById('loadingState');
+  ls.style.display = 'block';
+  ls.innerHTML = `<div class="products-grid">${Array(6).fill(`
+    <div class="skel-card">
+      <div class="skel-img skeleton"></div>
+      <div class="skel-body">
+        <div class="skel-line skeleton" style="width:60%"></div>
+        <div class="skel-line skeleton" style="width:90%"></div>
+        <div class="skel-line skeleton" style="width:80%"></div>
+        <div class="skel-price skeleton"></div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function hideLoading() {
+  document.getElementById('loadingState').style.display = 'none';
+}
+
+/* ──────────────────────────────────────────────────────────
+   VIEW TOGGLE
+   ────────────────────────────────────────────────────────── */
+function setView(v) {
+  currentView = v;
+  const grid = document.getElementById('productsGrid');
+  grid.classList.toggle('list-view', v==='list');
+  document.getElementById('gridBtn').classList.toggle('active', v==='grid');
+  document.getElementById('listBtn').classList.toggle('active', v==='list');
+}
+
+/* ──────────────────────────────────────────────────────────
+   DARK MODE
+   ────────────────────────────────────────────────────────── */
+function toggleDark() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('dd_dark', !isDark);
+  updateDarkIcon();
+  if(chartInstance) renderChart(currentPeriod);
+}
+
+function updateDarkIcon() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('darkBtn').innerHTML = isDark
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+}
+
+/* ──────────────────────────────────────────────────────────
+   MISC
+   ────────────────────────────────────────────────────────── */
+function toast(msg) {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => { el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),300); }, 2200);
+}
+
+function scrollToTop() { window.scrollTo({top:0,behavior:'smooth'}); }
+function focusSearch() {
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>document.getElementById('heroSearch').focus(),400);
+}
+
+function toggleFilterDropdown() {
+  document.getElementById('filterDropdown').classList.toggle('open');
+}
+
+// Prevent modal close on inner click
+document.getElementById('compareModal').querySelector('.modal').addEventListener('click', e => e.stopPropagation());
+document.getElementById('compareModal').addEventListener('click', toggleCompareModal);
+document.getElementById('apiModal').querySelector('.modal').addEventListener('click', e => e.stopPropagation());
+document.getElementById('apiModal').addEventListener('click', toggleApiModal);
+</script>
+</body>
+</html>
